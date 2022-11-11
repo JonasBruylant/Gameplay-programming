@@ -87,3 +87,26 @@ SteeringOutput Evade::CalculateSteering(float deltaT, SteeringAgent* pAgent)
 {
     return SteeringOutput();
 }
+
+SteeringOutput Arrive::CalculateSteering(float deltaT, SteeringAgent* pAgent)
+{
+    SteeringOutput arrive = {};
+    Elite::Vector2 targetToAgent = m_Target.Position - pAgent->GetPosition();
+    arrive.LinearVelocity = targetToAgent;
+    arrive.LinearVelocity.Normalize();
+    float distance = targetToAgent.Magnitude();
+
+    if (distance < m_SlowRadius)
+    {
+        arrive.LinearVelocity *= pAgent->GetMaxLinearSpeed() * (distance / m_SlowRadius);
+        if (distance < m_ArrivalRadius)
+            arrive.LinearVelocity = { 0.f,0.f };
+    }
+    else
+        arrive.LinearVelocity *= pAgent->GetMaxLinearSpeed();
+
+    if (pAgent->CanRenderBehavior())
+        DEBUGRENDERER2D->DrawDirection(pAgent->GetPosition(), arrive.LinearVelocity, 5, { 0,1,0 });
+
+    return arrive;
+}

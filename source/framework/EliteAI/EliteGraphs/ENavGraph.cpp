@@ -62,33 +62,46 @@ void Elite::NavGraph::CreateNavigationGraph()
 
 		if (triangle.size() > 1) //Check if the amount of triangles connected to the line is more than one
 		{
-			//Vector2 lineCenter = { (currentLine->p1.x + currentLine->p2.x) * 0.5f, (currentLine->p1.y + currentLine->p2.y) * 0.5f };
-			//NavGraphNode* navGraphNode = new NavGraphNode{currentLine->index, lineCenter};
-			//AddNode(navGraphNode);
-
 			Vector2 center{ (currentLine->p1.x + currentLine->p2.x) * 0.5f, (currentLine->p1.y + currentLine->p2.y) * 0.5f };
 			NavGraphNode* node{ new NavGraphNode(GetNextFreeNodeIndex(), currentLine->index ,center) };
 			AddNode(node);
 		}
 	}
 
+
 	for (auto& triangle : m_pNavMeshPolygon->GetTriangles())
 	{
-		std::vector<NavGraphNode> validNode;
+		std::vector<int> validNodes;
 		for (auto& lineIdx : triangle->metaData.IndexLines)
 		{
-			if (GetNodeIdxFromLineIdx(lineIdx) >= 0)
+			if (GetNodeIdxFromLineIdx(lineIdx) != invalid_node_index)
 			{
-				std::cout << GetNodeIdxFromLineIdx(lineIdx) << '\n';
-				GraphConnection2D
-					AddConnection();
+				validNodes.push_back(GetNodeIdxFromLineIdx(lineIdx)); //Pushback the number of the valid node connected to the triangle
+				//2. Create connections now that every node is created
+				//std::cout << GetNodeIdxFromLineIdx(lineIdx) << '\n';
 			}
+
 		}
-		std::cout << "------------------ \n" << '\n';
 
+		if (validNodes.size() == 2)
+		{
+			GraphConnection2D* pConnection = new GraphConnection2D(validNodes[0], validNodes[1]);
+			AddConnection(pConnection);
+		}
+		if (validNodes.size() == 3)
+		{
+			GraphConnection2D* pConnection1 = new GraphConnection2D(validNodes[0], validNodes[1]);
+			GraphConnection2D* pConnection2 = new GraphConnection2D(validNodes[1], validNodes[2]);
+			GraphConnection2D* pConnection3 = new GraphConnection2D(validNodes[2], validNodes[0]);
+			AddConnection(pConnection1);
+			AddConnection(pConnection2);
+			AddConnection(pConnection3);
+		}
 
-	//2. Create connections now that every node is created
+	}
+		//3. Set the connections cost to the actual distance
+		SetConnectionCostsToDistance(); 
+
 	
-	//3. Set the connections cost to the actual distance
 }
 

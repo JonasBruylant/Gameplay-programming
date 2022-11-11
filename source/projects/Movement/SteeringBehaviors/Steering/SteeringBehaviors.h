@@ -97,6 +97,23 @@ public:
 	SteeringOutput CalculateSteering(float deltaT, SteeringAgent* pAgent) override;
 };
 
+class Arrive : public ISteeringBehavior
+{
+public:
+	Arrive() = default;
+	virtual ~Arrive() = default;
+
+	//Seek Behaviour
+	SteeringOutput CalculateSteering(float deltaT, SteeringAgent* pAgent) override;
+	void SetSlowRadius(float slowRadius) { m_SlowRadius = slowRadius; }
+	void SetTargetRadius(float targetRadius) { m_ArrivalRadius = targetRadius; }
+
+	float m_SlowRadius = 15.f;
+	float m_ArrivalRadius = 1.f;
+
+
+};
+
 #endif
 
 

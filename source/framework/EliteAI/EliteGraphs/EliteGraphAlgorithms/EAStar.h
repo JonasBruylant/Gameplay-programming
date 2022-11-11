@@ -1,4 +1,6 @@
 #pragma once
+#include "framework/EliteAI/EliteNavigation/ENavigation.h"
+
 
 namespace Elite
 {
