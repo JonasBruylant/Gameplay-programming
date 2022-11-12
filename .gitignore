@@ -34,3 +34,9 @@ bin/
 *.exe
 *.out
 *.app
+source/.vs/GPP_Framework/v17/.suo
+*.bin
+*.db
+source/.vs/GPP_Framework/v17/.suo
+source/.vs/GPP_Framework/v17/fileList.bin
+source/.vs/GPP_Framework/v17/Browse.VC.db
