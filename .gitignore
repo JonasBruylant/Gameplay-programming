@@ -1,3 +1,7 @@
+TempFiles/
+bin/
+.vs/
+
 # Prerequisites
 *.d
 

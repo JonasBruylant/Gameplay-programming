@@ -56,13 +56,14 @@ namespace Elite
 		std::vector<NodeRecord> closedList;
 		NodeRecord currentRecord{};
 
-		NodeRecord startRecord{};
-		startRecord.pNode = pStartNode;
-		startRecord.pConnection = nullptr;	
+		//NodeRecord startRecord{};
+		currentRecord.pNode = pStartNode;
+		currentRecord.pConnection = nullptr;
+		currentRecord.estimatedTotalCost = GetHeuristicCost(pStartNode, pGoalNode);
+		currentRecord.costSoFar = 0;
 
-		startRecord.estimatedTotalCost = GetHeuristicCost(pStartNode, pGoalNode);
+		openList.push_back(currentRecord);
 
-		openList.push_back(startRecord);
 
 		while (!openList.empty())
 		{
@@ -76,7 +77,7 @@ namespace Elite
 				auto nodeOverConnection = m_pGraph->GetNode(connection->GetTo());
 
 				//Caculate g cost
-				float nextGCost = currentRecord.costSoFar + connection->GetCost() + GetHeuristicCost(nodeOverConnection, pGoalNode); //Get cost
+				float nextGCost = currentRecord.costSoFar + connection->GetCost(); //Get cost
 				bool isInclosedList = false;
 
 				for(auto& record : closedList)
@@ -84,7 +85,7 @@ namespace Elite
 					if (record.pNode != nodeOverConnection)
 						continue;
 
-					if (record.estimatedTotalCost < nextGCost)
+					if (record.costSoFar < nextGCost)
 						continue;
 
 					closedList.erase(std::remove(closedList.begin(), closedList.end(), record));
@@ -100,7 +101,7 @@ namespace Elite
 						if (record.pNode != nodeOverConnection)
 							continue;
 
-						if (record.estimatedTotalCost < nextGCost)
+						if (record.costSoFar < nextGCost)
 							continue;
 
 						openList.erase(std::remove(openList.begin(), openList.end(), record));
@@ -111,8 +112,8 @@ namespace Elite
 				NodeRecord newRecord;
 				newRecord.pNode = nodeOverConnection;
 				newRecord.pConnection = connection;
-				newRecord.costSoFar = currentRecord.estimatedTotalCost;
-				newRecord.estimatedTotalCost = nextGCost;
+				newRecord.costSoFar = nextGCost;
+				newRecord.estimatedTotalCost = nextGCost + GetHeuristicCost(nodeOverConnection, pGoalNode);;
 
 				openList.push_back(newRecord);
 			}

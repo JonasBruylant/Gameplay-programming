@@ -87,7 +87,7 @@ namespace Elite
 				if (rightLeg.Cross(newRightLeg) >= 0) //Check if right leg is going inward
 				{
 					//2. See if new line degenerates a line segment - RIGHT
-					if (newRightLeg.Cross(leftLeg) > 0) //RightLeg crossing LeftLeg
+					if (newRightLeg.Cross(leftLeg) >= 0) //RightLeg crossing LeftLeg
 					{
 						rightLeg = newRightLeg;
 						rightLegIdx = portalIdx;
@@ -119,7 +119,7 @@ namespace Elite
 				{
 
 					//2. See if new line degenerates a line segment - LEFT
-					if (newLeftLeg.Cross(rightLeg) < 0) //RightLeg crossing LeftLeg
+					if (newLeftLeg.Cross(rightLeg) <= 0) //RightLeg crossing LeftLeg
 					{
 						leftLeg = newLeftLeg;
 						leftLegIdx = portalIdx;
