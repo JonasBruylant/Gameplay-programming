@@ -28,6 +28,7 @@ stdafx.h: Precompiled header for engine. Includes all standard files, as well as
 #include <unordered_map>
 #include <map>
 
+
 #pragma endregion //StandardLibraryIncludes
 
 /*===========================================================================
@@ -177,6 +178,7 @@ extern bool gRequestShutdown;
 #include "framework/EliteTimer/ETimer.h"
 #include "framework/EliteRendering/ERendering.h"
 #include "framework/EliteUI/EImmediateUI.h"
+#include "framework/EliteAI/EliteDecisionMaking/EDecisionMaking.h"
 #pragma endregion //FrameworkIncludes
 
 /* --- FRAMEWORK MACROS ---- */

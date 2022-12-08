@@ -8,7 +8,10 @@
 //#define ActiveApp_FlockingBehavior
 //#define ActiveApp_GraphTheory
 //#define ActiveApp_Astar
-#define ActiveApp_NavMesh
+//#define ActiveApp_NavMesh
+//#define ActiveApp_Agario
+//#define ActiveApp_AgarioBT
+#define ActiveApp_InfluenceMap
 
 //---------- Registered Applications -----------
 #ifdef ActiveApp_Sandbox
@@ -44,6 +47,21 @@ typedef App_PathfindingAStar CurrentApp;
 #ifdef ActiveApp_NavMesh
 #include "projects/Movement/Pathfinding/NavMeshGraph/App_NavMeshGraph.h"
 typedef App_NavMeshGraph CurrentApp;
+#endif
+
+#ifdef ActiveApp_Agario
+#include "projects/DecisionMaking/FiniteStateMachines/App_AgarioGame.h"
+typedef App_AgarioGame CurrentApp;
+#endif
+
+#ifdef ActiveApp_AgarioBT
+#include "projects/DecisionMaking/BehaviorTrees/App_AgarioGame_BT.h"
+typedef App_AgarioGame_BT CurrentApp;
+#endif
+
+#ifdef ActiveApp_InfluenceMap
+#include "projects/DecisionMaking/InfluenceMaps/App_InfluenceMap.h"
+typedef App_InfluenceMap CurrentApp;
 #endif
 
 class App_Selector {

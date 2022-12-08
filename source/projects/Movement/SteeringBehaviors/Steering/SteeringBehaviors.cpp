@@ -62,20 +62,20 @@ SteeringOutput Wander::CalculateSteering(float deltaT, SteeringAgent* pAgent)
     //std::cout << "Calculated angle: " << Elite::ToDegrees(angle) << " Previous Angle: " << Elite::ToDegrees(m_PreviousAngle) << '\n';
 
     Elite::Vector2 pointOnCircle{ cos(m_PreviousAngle), sin(m_PreviousAngle) };
-    pointOnCircle *= m_Radius;
+    pointOnCircle *= pAgent->GetRadius();
 
     //Move circle in front of the agent with a set distance
-    pointOnCircle += (pAgent->GetDirection() * m_OffsetDistance);
+    pointOnCircle += (pAgent->GetDirection() * pAgent->GetRadius());
 
     //Normalize and set speed
     steering.LinearVelocity = pointOnCircle;
     steering.LinearVelocity.Normalize();
     steering.LinearVelocity *= pAgent->GetMaxLinearSpeed();
-    Elite::Vector2 targetCircle{ pAgent->GetPosition() + (pAgent->GetDirection() * m_OffsetDistance)};
+    Elite::Vector2 targetCircle{ pAgent->GetPosition() + (pAgent->GetDirection() * (pAgent->GetRadius()))};
 
     if (pAgent->CanRenderBehavior())
     {
-        DEBUGRENDERER2D->DrawCircle(targetCircle, m_Radius, { 0,0,1 }, 0);
+        DEBUGRENDERER2D->DrawCircle(targetCircle, pAgent->GetRadius(), {0,0,1}, 0);
         DEBUGRENDERER2D->DrawDirection(pAgent->GetPosition(), steering.LinearVelocity, 5, { 1,0,0 });
         DEBUGRENDERER2D->DrawDirection(pAgent->GetPosition(), pAgent->GetDirection(), 5, {0,1,0});
         DEBUGRENDERER2D->DrawPoint(pAgent->GetPosition() + pointOnCircle, 5, {0.87f, 0.34f, 0.65f});
